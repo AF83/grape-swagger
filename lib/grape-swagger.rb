@@ -56,8 +56,6 @@ module Grape
 
             desc 'Swagger compatible API description'
             get @@mount_path do
-              header['Access-Control-Allow-Origin'] = '*'
-              header['Access-Control-Request-Method'] = '*'
               routes = @@target_class::combined_routes
 
               if @@hide_documentation_path
@@ -81,8 +79,6 @@ module Grape
                 "name" => { :desc => "Resource name of mounted API", :type => "string", :required => true },
               }
             get "#{@@mount_path}/:name" do
-              header['Access-Control-Allow-Origin'] = '*'
-              header['Access-Control-Request-Method'] = '*'
               routes = @@target_class::combined_routes[params[:name]]
               routes_array = routes.map do |route|
                 notes = route.route_notes && @@markdown ? Kramdown::Document.new(strip_heredoc(route.route_notes)).to_html : route.route_notes
